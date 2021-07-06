@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
 
@@ -30,110 +30,28 @@
               <table class="table card-table table-vcenter text-nowrap datatable">
                 <thead>
                   <tr>
-                    <th>Invoice Subject</th>
-                    <th>Client</th>
-                    <th>VAT No.</th>
-                    <th>Created</th>
-                    <th>Status</th>
-                    <th>Price</th>
+                    <th>Product Picture</th>
+                    <th>Product Name</th>
+                    <th>Product Company Name</th>
+                    <th>product Price</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                        <span class="flag flag-country-de"></span>
-                        Bluewolf
-                    </td>
-                    <td>
-                      <span class="flag flag-country-de"></span>
-                      ABC
-                    </td>
-                    <td>
-                      87952621
-                    </td>
-                    <td>
-                      23 Oct 2017
-                    </td>
-                    <td>
-                      <span class="badge bg-warning me-1"></span> Pending
-                    </td>
-                    <td>$534</td>
+                    <td></td>
+                    <td>Samsung galaxy S10</td>
+                    <td>Samsung</td>
+                    <td>100$</td>
                     <td class="text-end">
                       <span class="dropdown">
                         <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-end">
                           <a class="dropdown-item" href="#">
-                            Action
+                            Edit
                           </a>
                           <a class="dropdown-item" href="#">
-                            Another action
-                          </a>
-                        </div>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                        <span class="flag flag-country-de"></span>
-                        Bluewolf
-                    </td>
-                    <td>
-                      <span class="flag flag-country-de"></span>
-                      ABC
-                    </td>
-                    <td>
-                      87952621
-                    </td>
-                    <td>
-                      23 Oct 2017
-                    </td>
-                    <td>
-                      <span class="badge bg-warning me-1"></span> Pending
-                    </td>
-                    <td>$534</td>
-                    <td class="text-end">
-                      <span class="dropdown">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item" href="#">
-                            Action
-                          </a>
-                          <a class="dropdown-item" href="#">
-                            Another action
-                          </a>
-                        </div>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                        <span class="flag flag-country-de"></span>
-                        Bluewolf
-                    </td>
-                    <td>
-                      <span class="flag flag-country-de"></span>
-                      ABC
-                    </td>
-                    <td>
-                      87952621
-                    </td>
-                    <td>
-                      23 Oct 2017
-                    </td>
-                    <td>
-                      <span class="badge bg-warning me-1"></span> Pending
-                    </td>
-                    <td>$534</td>
-                    <td class="text-end">
-                      <span class="dropdown">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item" href="#">
-                            Action
-                          </a>
-                          <a class="dropdown-item" href="#">
-                            Another action
+                            Delete
                           </a>
                         </div>
                       </span>
