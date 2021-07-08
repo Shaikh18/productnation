@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -13,7 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product.product');
+        $products = Products::latest()->paginate(15);
+        return view('product.product', compact('products'))
+        ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -24,7 +28,24 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'product_name' => 'required',
+            'product_c_name' => 'required',
+            'product_price' => 'required',
+        ]);
+
+        $input = $request->all();
+
+        if($image = $request->file('product_img')){
+            $path = $request->file('product_img')->store('public/image');
+            $input['product_img'] = substr($path, 7);
+        }
+
+        Products::create($input);
+
+        return redirect()->route('product.index')
+        ->with('success','Product created successfully.');
     }
 
     /**
