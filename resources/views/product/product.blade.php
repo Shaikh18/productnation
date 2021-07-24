@@ -29,7 +29,7 @@
             </div>
         </div>
         @if ($message = Session::get('success'))
-            <div class="alert alert-success">
+            <div id="update_create_alert" class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
         @endif
@@ -78,7 +78,7 @@
                                 <span class="dropdown">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item btn_edit_product" href="javascript:void(0)" data-id="{{$product->id}}">
                                         Edit
                                     </a>
                                     <a class="dropdown-item" href="#">
@@ -126,10 +126,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title">New report</h5>
+                <h5 class="modal-title">Create New product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('product_index') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
 
@@ -165,6 +165,85 @@
             </div>
         </div>
     </div>
+
+    {{-- edit modal --}}
+    <div class="modal modal-blur fade show" id="modal-edit" tabindex="-1" style="padding-right: 6px;" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('product_update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" class="hidden" id="product_id" name="hidden" value="{{$product->id}}">
+                        <div class="mb-3">
+                            <label class="form-label">Product Picture</label>
+                            <img  class="preview_product_img" src="<?php echo asset("storage/$product->product_img")?>" style="width:30%;margin-bottom:1%;">
+                            <input type="file" class="form-control" id="file" name="product_img" placeholder="Your Product Name" >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control product_name" id="product_name" name="product_name" placeholder="Your Product Name" value="{{$product->product_name}}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Product Company Name</label>
+                            <input type="text" class="form-control product_c_name" id="product_c_name" name="product_c_name" placeholder="Your Product Company Name" value="{{$product->product_c_name}}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Product Price</label>
+                            <input type="text" class="form-control product_price" id="product_price" name="product_price" placeholder="Your Product Price" value="{{$product->product_price}}$">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </a>
+                        <button type="submit" id="but_upload" class="btn btn-primary ms-auto">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Update product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+
+
+            setTimeout(function(){$('#update_create_alert').fadeOut('slow');}, 3000);
+
+
+            $('.btn_edit_product').on('click', function(){
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: `<?php echo(route('product_find')); ?>`,
+                    async: false,
+                    data: {id: id},
+                    success: function(data){
+                        var product = data;
+
+                        $('.hidden').val(product.id);
+                        $('.preview_product_img').attr('src', `{{asset("storage/`+product.product_img+`")}}`);
+                        $('.product_name').val(product.product_name);
+                        $('.product_c_name').val(product.product_c_name);
+                        $('.product_price').val(product.product_price);
+
+                        $('#modal-edit').modal('show');
+                    }
+                });
+
+            });
+        });
+    </script>
 @endsection

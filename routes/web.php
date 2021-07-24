@@ -22,4 +22,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // products route
-Route::apiResource('product', 'App\Http\Controllers\ProductController');
+// Route::apiResource('product', 'App\Http\Controllers\ProductController');
+Route::get('product', [App\Http\Controllers\ProductController::class, 'index'])->name('product_index');
+Route::post('product', [App\Http\Controllers\ProductController::class, 'store'])->name('product_store');
+Route::post('product_update', [App\Http\Controllers\ProductController::class, 'update'])->name('product_update');
+Route::get('product_find', [App\Http\Controllers\ProductController::class, 'show'])->name('product_find');
