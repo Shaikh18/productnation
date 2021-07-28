@@ -44,14 +44,14 @@
                     <div class="text-muted">
                       Show
                       <div class="mx-2 d-inline-block">
-                        <input type="text" class="form-control form-control-sm" value="8" size="3" aria-label="Invoices count">
+                        <input type="text" class="form-control form-control-sm" id="filter1" value="8" size="3" aria-label="Invoices count">
                       </div>
                       entries
                     </div>
                     <div class="ms-auto text-muted">
                       Search:
                       <div class="ms-2 d-inline-block">
-                        <input type="text" class="form-control form-control-sm" aria-label="Search invoice">
+                        <input id="myInput" class="form-control form-control-sm" type="text">
                       </div>
                     </div>
                   </div>
@@ -67,10 +67,13 @@
                         <th></th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         @foreach ($products as $product)
                         <tr>
-                            <td style="width: 20%"><img  src="<?php echo asset("storage/$product->product_img")?>" style="width:50%;"></td>
+                            <td style="width: 20%">
+                                {{-- <img  src="<?php echo asset("storage/$product->product_img")?>" style="width:50%;"> --}}
+                                <img  src="<?php echo asset("storage/$product->product_img")?>" style="width:50%;">
+                            </td>
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->product_c_name}}</td>
                             <td>{{$product->product_price}}$</td>
@@ -81,7 +84,7 @@
                                     <a class="dropdown-item btn_edit_product" href="javascript:void(0)" data-id="{{$product->id}}">
                                         Edit
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a  href="javascript:void(0)" class="dropdown-item del_hidden_id" data-id="{{$product->id}}">
                                         Delete
                                     </a>
                                     </div>
@@ -135,19 +138,19 @@
 
                         <div class="mb-3">
                             <label class="form-label">Product Picture</label>
-                            <input type="file" class="form-control" id="file" name="product_img" placeholder="Your Product Name">
+                            <input type="file" class="form-control" id="file" name="product_img" placeholder="Your Product Name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Your Product Name">
+                            <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Your Product Name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Company Name</label>
-                            <input type="text" class="form-control" id="product_c_name" name="product_c_name" placeholder="Your Product Company Name">
+                            <input type="text" class="form-control" id="product_c_name" name="product_c_name" placeholder="Your Product Company Name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Price</label>
-                            <input type="text" class="form-control" id="product_price" name="product_price" placeholder="Your Product Price">
+                            <input type="text" class="form-control" id="product_price" name="product_price" placeholder="Your Product Price" required>
                         </div>
 
                     </div>
@@ -219,7 +222,23 @@
     <script>
         $(document).ready(function(){
 
+            $('#product_table').pagination({
+                dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 195],
+                callback: function(data, pagination) {
+                    // template method of yourself
+                    var html = template(data);
+                    dataContainer.html(html);
+                }
+            });
+            // search bar
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
 
+            // create update delete alert
             setTimeout(function(){$('#update_create_alert').fadeOut('slow');}, 3000);
 
 
@@ -240,6 +259,20 @@
                         $('.product_price').val(product.product_price);
 
                         $('#modal-edit').modal('show');
+                    }
+                });
+
+            });
+
+            $('.del_hidden_id').on('click', function(){
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: `<?php echo(route('product_del')); ?>`,
+                    async: false,
+                    data: {id: id},
+                    success: function(data){
+                        console.log('del id');
                     }
                 });
 

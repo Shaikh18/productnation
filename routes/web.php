@@ -27,3 +27,4 @@ Route::get('product', [App\Http\Controllers\ProductController::class, 'index'])-
 Route::post('product', [App\Http\Controllers\ProductController::class, 'store'])->name('product_store');
 Route::post('product_update', [App\Http\Controllers\ProductController::class, 'update'])->name('product_update');
 Route::get('product_find', [App\Http\Controllers\ProductController::class, 'show'])->name('product_find');
+Route::get('product_del', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product_del');

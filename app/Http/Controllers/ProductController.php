@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Http\File;
+// use Illuminate\Http\File;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
+
 
 class ProductController extends Controller
 {
@@ -73,24 +76,17 @@ class ProductController extends Controller
     {
         $id = $request->hidden;
         $product = Products::find($id);
-
-        // $request->validate([
-        //     'product_img' => 'required|mimes:jpg,bmp,png',
-        //     'product_name' => 'required',
-        //     'product_c_name' => 'required',
-        //     'product_price' => 'required',
-        // ]);
-
         // image work
         $req = Arr::except($request->all(),['image']);
 
         // image
         if($request->product_img){
             Storage::disk('images')->delete($product->product_img);
-            $image = $request->image;
-            $imageName = Str::random(10).'.png';
+            $image = $request->product_img;
+            $imageName = Str::random(5).'.png';
+            // dd($imageName);
             Storage::disk('images')->put($imageName, File::get($image));
-            $req['image'] = $imageName;
+            $req['product_img'] = $imageName;
         }
 
         // update product
@@ -105,8 +101,13 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        // dd('destroy');
+        $id = $request->hidden_id;
+        $id = Products::find($id);
+        dd($id);
+        $id ->delete();
+        return redirect()->route('product_index')->with('success','Product deleted  successfully.');
     }
 }
