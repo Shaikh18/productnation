@@ -71,8 +71,8 @@
                         @foreach ($products as $product)
                         <tr>
                             <td style="width: 20%">
+                                <img  src="<?php echo asset("storage/image") . '/' . $product->product_img?>" style="width:50%;">
                                 {{-- <img  src="<?php echo asset("storage/$product->product_img")?>" style="width:50%;"> --}}
-                                <img  src="<?php echo asset("storage/$product->product_img")?>" style="width:50%;">
                             </td>
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->product_c_name}}</td>
@@ -183,20 +183,20 @@
                         <input type="hidden" class="hidden" id="product_id" name="hidden" value="{{$product->id}}">
                         <div class="mb-3">
                             <label class="form-label">Product Picture</label>
-                            <img  class="preview_product_img" src="<?php echo asset("storage/$product->product_img")?>" style="width:30%;margin-bottom:1%;">
+                            <img  class="preview_product_img" src="<?php echo asset("storage/image") . '/' . $product->product_img?>" style="width:30%;margin-bottom:1%;">
                             <input type="file" class="form-control" id="file" name="product_img" placeholder="Your Product Name" >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Name</label>
-                            <input type="text" class="form-control product_name" id="product_name" name="product_name" placeholder="Your Product Name" value="{{$product->product_name}}">
+                            <input type="text" class="form-control product_name" id="product_name" name="product_name" placeholder="Your Product Name">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Company Name</label>
-                            <input type="text" class="form-control product_c_name" id="product_c_name" name="product_c_name" placeholder="Your Product Company Name" value="{{$product->product_c_name}}">
+                            <input type="text" class="form-control product_c_name" id="product_c_name" name="product_c_name" placeholder="Your Product Company Name">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Price</label>
-                            <input type="text" class="form-control product_price" id="product_price" name="product_price" placeholder="Your Product Price" value="{{$product->product_price}}$">
+                            <input type="text" class="form-control product_price" id="product_price" name="product_price" placeholder="Your Product Price">
                         </div>
 
                     </div>
@@ -222,14 +222,14 @@
     <script>
         $(document).ready(function(){
 
-            $('#product_table').pagination({
-                dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 195],
-                callback: function(data, pagination) {
-                    // template method of yourself
-                    var html = template(data);
-                    dataContainer.html(html);
-                }
-            });
+            // $('#product_table').pagination({
+            //     dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 195],
+            //     callback: function(data, pagination) {
+            //         // template method of yourself
+            //         var html = template(data);
+            //         dataContainer.html(html);
+            //     }
+            // });
             // search bar
             $("#myInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();

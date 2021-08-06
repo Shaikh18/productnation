@@ -44,8 +44,11 @@ class ProductController extends Controller
         $input = $request->all();
 
         if($image = $request->file('product_img')){
-            $path = $request->file('product_img')->store('public/image');
-            $input['product_img'] = substr($path, 7);
+
+            $image = $request->product_img;
+            $imageName = Str::random(10).'.png';
+            Storage::disk('images')->put($imageName, File::get($image));
+            $input['product_img'] = $imageName;
         }
 
         Products::create($input);
@@ -103,7 +106,7 @@ class ProductController extends Controller
      */
     public function destroy(Request $request)
     {
-        // dd('destroy');
+        dd('destroy');
         $id = $request->hidden_id;
         $id = Products::find($id);
         dd($id);
